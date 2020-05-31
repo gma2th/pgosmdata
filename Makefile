@@ -27,8 +27,9 @@ prepare: ## convert shp files to sql files
 
 .PHONY: insert
 insert: ## insert data into db
-	@psql ${DATABASE_URL} -f data/create_land_polygon.sql
-	@psql ${DATABASE_URL} -f data/create_water_polygon.sql
+	@psql "${DATABASE_URL}" -c "create extension if not exists postgis"
+	@psql "${DATABASE_URL}" -f data/create_land_polygon.sql
+	@psql "${DATABASE_URL}" -f data/create_water_polygon.sql
 
 .PHONY: update
 update: prepare insert ## prepare, insert
